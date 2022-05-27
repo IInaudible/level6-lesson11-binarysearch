@@ -10,7 +10,30 @@ const searchWord = "year"
 // Use a binary search to reduce the amount of matches we need to check 
 function binarySearch(sortedArray, searchWord, startIndex, endIndex) {
 
-	// ADD THE ACTIVITY CODE HERE!!!
+	// A) Divide the number of words we haven’t checked yet in half to evaluate the middle word
+	const middleIndex = Math.floor((startIndex + endIndex) / 2);
+	// B) If the middle word is our word, exit with success
+	if (searchWord === sortedArray[middleIndex]) {
+		return middleIndex;
+	}
+	// C) If our word is not found, determine if it would come earlier or later in the sorted order
+	else {
+		if (searchWord < sortedArray[middleIndex]) {
+			endIndex = middleIndex - 1;
+		} else {
+			startIndex = middleIndex + 1;
+		}
+	}
+	// D) Discard the words in the direction we don’t need to evaluate
+
+	// E) If we still have words to check, repeat the steps with our updated undiscarded words
+	if (startIndex <=endIndex) {
+		return binarySearch(sortedArray, searchWord, startIndex, endIndex);
+	}
+	// F) If we have no more words to check, we can say with confidence the word is not in that dictionary
+	else {
+		return -1;
+	}
 
 }
 
@@ -33,7 +56,7 @@ function linearSearch(arr, searchWord) {
 
 // Magnify the time complexity difference between the two algorithms
 //   by increasing the amount of times the algorithms runs
-const loopCount = 10000
+const loopCount = 100000
 
 // Initiate benchmark test for Binary Search
 console.time("BinarySearch") // Initiate Binary Search benchmark
